@@ -1,12 +1,10 @@
 import os
-from aiogram import Bot, Dispatcher, types
-from aiogram.types import Message
-from aiogram.filters import Command
-from aiogram import F
 import asyncio
+from aiogram import Bot, Dispatcher
+from aiogram.types import Message
+from aiogram.filters import F
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
@@ -14,8 +12,12 @@ dp = Dispatcher()
 async def echo(message: Message):
     await message.answer("✅ Бот працює")
 
+async def on_startup():
+    print("Bot started!")
+
+dp.startup.register(on_startup)
+
 async def main():
-    dp.startup.register(lambda _: print("Bot started!"))
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
